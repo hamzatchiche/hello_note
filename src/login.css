@@ -1,0 +1,33 @@
+.login{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    background: #acc2c5;
+    height: 100vh;
+}
+TextField, TextField :label {
+    color: #186d78;
+    font-weight: bold;
+}
+
+.loginContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3rem;
+    border-radius: 2rem;
+    gap: 1rem;
+    background: rgb(234, 234, 235);
+    margin:1rem;
+}
+.forgpwdlink{
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    align-self: flex-end;
+    margin: 1.3rem 0;
+}
+.loginText{
+    color: black;
+}

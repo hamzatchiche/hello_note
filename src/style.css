@@ -1,0 +1,113 @@
+html,body,#root{
+    height: 100%;
+    width: 100%;
+}
+.home{
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.navbar{
+    display: flex;
+    margin: 0px;
+    background-color: #186d78;
+    opacity: 70%;
+    padding: 0px;
+    max-height:60px;
+    border-bottom: 1px solid white;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+ul {
+    list-style-type: none;
+    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+}
+ul li {
+    display:  inline-block;
+}
+ul li a {
+    text-decoration: none;
+    padding: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: black;
+}
+ul li a:hover{
+    font-size: 18px;
+    color: #9FA5F9;
+}
+.list3{
+    padding-right: 6px;
+}
+img{
+    margin-top: 7px;
+    width: 100px;
+    height: 100px;
+}
+#im2{
+    width: 450px;
+    height: 300px;
+    position: relative;
+    left: 470px;
+    bottom: 190px;
+}
+.content{
+    height: 100%;
+    margin-top: 0%;
+    background-color: #c8cbfb;
+    opacity: 100%;
+    position: relative;
+}
+#s1{
+    color: #9FA5F9;
+    position: relative;
+    top: 100px;
+    width: 28rem;
+    left: 200px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 45px;
+    overflow-x: hidden;
+    font-weight: bolder;
+}
+#s2{
+    position: relative;
+    color: #565d6d;
+    top: 100px;
+    left: 200px;
+    width: 28rem;
+    line-height: 1.8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.start-button{
+    background: linear-gradient(to right, #828aff 30%,#69b0f1);
+    padding: 10px;
+    padding-left:30px;
+    padding-right: 30px;
+    border-radius: 20px;
+    font-family:Arial, Helvetica, sans-serif;
+    position: relative;
+    border: 1px solid #c8cbfb;
+    bottom: 150px;
+    left: 200px;
+    transition: transform .12s, box-shadow .12s;
+}
+.start-button:hover{
+    padding: 12px;
+    padding-left:30px;
+    padding-right: 30px;
+    border-radius: 20px;
+    border: 2px solid #9FA5F9;
+    transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+#im3{
+    position: relative;
+    top: 3px;
+    width: 20px;
+    height: 17px;
+    margin: 0%;
+}
