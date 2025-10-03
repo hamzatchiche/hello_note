@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Side navbar */
+.sidenavbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: #186d78;
+  width: 3rem;
+  overflow-x: hidden;
+  transition: width 0.5s;
+}
+
+.sidenavbar:hover {
+  width: 13rem;
+}
+
+.navlinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.navlink {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.navlink span {
+  display: none;
+}
+
+.sidenavbar:hover .navlink span {
+  display: inline;
+}
+.navlink:hover {
+  background-color: #0f4c52;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.addnote button {
+  display: flex;
+  background-color: blue;
+  color: white;
+  border-radius: 1rem;
+  width: 3rem;
+  height: 3rem;
+  margin: 1rem auto;
+}

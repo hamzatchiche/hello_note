@@ -1,0 +1,40 @@
+
+.mynotescontent div{
+    margin:20px;
+    padding:20px;
+    border:2px solid black;
+    border-radius:10px;
+    background-color:white;
+}
+.mynotescontent div p{
+    width: 96%;
+}
+.starBorderIcon{
+    float:right;
+    cursor:pointer;
+    size: 2rem;
+    color:gold;
+}
+.starIcon{
+    float:right;
+    cursor:pointer;
+    size: 2rem;
+    color:gold;
+}
+.starIcon:hover, .starBorderIcon:hover{
+    transform: scale(1.3);
+    transition: transform 0.2s;
+    filter: drop-shadow(2px 0px 5px rgba(0, 0, 0, 0.5))
+}
+.editIcon{
+    float:right;
+    cursor:pointer;
+    size: 2rem;
+    color:blue;
+}
+.deleteIcon{
+    float:right;
+    cursor:pointer;
+    size: 2rem;
+    color:red;
+}

@@ -1,13 +1,31 @@
-.design{
-    padding: 20px;
-    margin: 20px;
-    border: 2px solid black;
-    border-radius: 10px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-#designInput{
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
+.design {
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.designinputcontent {
+  width: 100%;
+  height: 100vh;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  
+}
+.designinput {
+  display: flex;
+  gap: 10px;
+}
+
+.designnav {
+flex-shrink: 0; 
+position: relative;
 }
