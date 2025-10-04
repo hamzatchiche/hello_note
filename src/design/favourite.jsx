@@ -17,9 +17,13 @@ const navigate = useNavigate();
         navigate("/editnote", { state: { note } });
     };
 
-const handleDelete=(id)=>{
-    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
-}
+const handleDelete = (id) => {
+    setNotes((prevNotes) => {
+        return prevNotes.map((note) =>
+            note.id === id ? { ...note, isTrash: true } : note
+        );
+    });
+};
 
     const toggleFavourite = (id) => {
         setNotes((prevNotes) =>
@@ -28,7 +32,7 @@ const handleDelete=(id)=>{
             )
         );
     };
-
+const favNotes=notes.filter((note) => ( note.isFavourite));
     return (
         <div className="mynotes" style={{ minHeight: "100vh", display: "flex" }}>
             <Navbar />
@@ -41,22 +45,31 @@ const handleDelete=(id)=>{
                 }}
             >
                 <h1>My Favourite Notes</h1>
-                {notes.filter((note) => ( note.isFavourite)).map((favourite) => (
-                <div className="mynotescontent" >
-                    <div key={favourite.id} className="note" style={{display : "flex", alignItems : "center" , gap : "10px"}}>
-                        <p>{favourite.content}</p>
-                        {favourite.isFavourite ? (
-                            <StarIcon className="starIcon" onClick={() => toggleFavourite(favourite.id)} />
-                        ) : 
-                        (
-                            <StarBorderIcon className="starBorderIcon" onClick={() => toggleFavourite(favourite.id)} />
-                        )
-                        }
-                        <EditRoundedIcon className="editIcon" onClick={() => handleUpdate(favourite)} />
-                        <AutoDeleteRoundedIcon className="deleteIcon" onClick={() => handleDelete(favourite.id)} />
-                    </div>
+                {favNotes.length === 0 ? (
+                    <h2
+                    style={{textAlign :"center", marginTop:"2rem", color:"goldenrod"}}
+                    >no Favourite items !</h2>
+                ) :(
+
+                    <div className="mynotescontent" >
+                        {
+                            favNotes.map((favourite) => (
+                            <div key={favourite.id} className="note" style={{display : "flex", alignItems : "center" , gap : "10px"}}>
+                    <p>{favourite.content}</p>
+                    {favourite.isFavourite ? (
+                        <StarIcon className="starIcon" onClick={() => toggleFavourite(favourite.id)} />
+                    ) : 
+                    (
+                        <StarBorderIcon className="starBorderIcon" onClick={() => toggleFavourite(favourite.id)} />
+                    )
+                }
+                <EditRoundedIcon className="editIcon" onClick={() => handleUpdate(favourite)} />
+                <AutoDeleteRoundedIcon className="deleteIcon" onClick={() => handleDelete(favourite.id)} />
+                </div>))
+                }
                 </div>
-                    ))}
+            )
+                    }
             </div>
         </div>
     )

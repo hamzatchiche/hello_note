@@ -11,14 +11,21 @@ export default function MyNotes({ notes, setNotes }) {
     
     const navigate = useNavigate();
 
+  const gotoaddnote=()=>{
+    navigate("/addnote");
+  }
     const handleUpdate = (note) => {
         
         navigate("/editnote", { state: { note } });
     };
 
-const handleDelete=(id)=>{
-    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
-}
+const handleDelete = (id) => {
+    setNotes((prevNotes) => {
+        return prevNotes.map((note) =>
+            note.id === id ? { ...note, isTrash: true } : note
+        );
+    });
+};
     const toggleFavourite = (id) => {
         setNotes((prevNotes) =>
             prevNotes.map((note) =>
@@ -26,6 +33,8 @@ const handleDelete=(id)=>{
             )
         );
     };
+
+    const realNotes= notes.filter((note) => !note.isTrash)
     return (
         <div className="mynotes" style={{  display: "flex" }}>
             <div className="designnav">
@@ -42,11 +51,22 @@ const handleDelete=(id)=>{
             >
                 <h1>My Notes</h1>
                 <div className="mynotescontent">
-                    {notes.map((note) => (
+                    {realNotes.length ===0 ? (
+                        <h2 
+                        style={{textAlign:"center", color:"red" }}
+                        >you have no notes !<br/>
+                        <span style={{color:"black", cursor:"pointer"}}
+                        onClick={gotoaddnote}
+                        >Create new notes</span>
+                        </h2>
+                    ):
+                    (
+                        realNotes.map((note)=>(
                         <div key={note.id} className="note" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             
                             <p>{note.content}</p>
                                 {note.isFavourite ? (
+                                    
                                     <StarIcon className="starIcon" onClick={() => toggleFavourite(note.id)} />
                                     
                                 ) : (
@@ -54,7 +74,7 @@ const handleDelete=(id)=>{
                                 )}
                                 <EditRoundedIcon className="editIcon" onClick={() => handleUpdate(note)} />
                                 <AutoDeleteRoundedIcon className="deleteIcon" onClick={() => handleDelete(note.id)} />
-                        </div>
+                        </div> ) 
                     ))}
                 </div>
             </div>

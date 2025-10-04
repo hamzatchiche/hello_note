@@ -18,17 +18,20 @@ export default function App() {
       id: 1,
       content: "This is my first note.",
       isFavourite: false,
+      isTrash: false,
     },
     {
       id: 2,
       content: "This is my second note.",
       isFavourite: false,
+      isTrash: false,
     },
     {
       id: 3,
       content:
         "This is my third note. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit, iste? Repellendus quos ducimus laboriosam iste iure facilis molestiae unde animi praesentium quia natus, dolores nihil, id tempore nulla repellat obcaecati! Eius dolor architecto magni tempora numquam officia autem perspiciatis nemo minus? Molestias velit nihil non hic sit, voluptatibus beatae. Iusto quaerat pariatur possimus explicabo! Officia dolorum soluta quia ut numquam. Molestias asperiores enim accusamus cumque velit perspiciatis maiores quas ad eum repellat, pariatur, harum exercitationem dolorem, libero rerum laboriosam eaque vitae vel! Possimus et necessitatibus quidem quasi aperiam dolores dolorum reprehenderit. Facere voluptate, asperiores ad nam ipsam reprehenderit, eius suscipit consequatur eum veritatis ea! Repellendus voluptas explicabo pariatur mollitia corporis ducimus suscipit?",
       isFavourite: true,
+      isTrash: false,
     },
   ]);
   return (
@@ -43,7 +46,7 @@ export default function App() {
         <Route path="/favourite" element={<Favourite notes={notes} setNotes={setNotes} />} />
         <Route path="/addnote" element={<NoteInput notes={notes} setNotes={setNotes} />} />
         <Route path="/editnote" element={<EditNote notes={notes} setNotes={setNotes} />} />
-        <Route path="/trash" element={<Trash />} />
+        <Route path="/trash" element={<Trash notes={notes} setNotes={setNotes} />} />
       </Routes>
     </Router>
   );

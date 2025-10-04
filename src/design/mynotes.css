@@ -21,6 +21,7 @@
     size: 2rem;
     color:gold;
 }
+
 .starIcon:hover, .starBorderIcon:hover{
     transform: scale(1.3);
     transition: transform 0.2s;
