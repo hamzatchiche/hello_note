@@ -7,6 +7,7 @@ import './favourite.css'
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import AutoDeleteRoundedIcon from '@mui/icons-material/AutoDeleteRounded';
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 export default function Favourite({notes, setNotes}){
     const [isFavourite, setIsFavourite] = usestate(true);
 
@@ -17,22 +18,31 @@ const navigate = useNavigate();
         navigate("/editnote", { state: { note } });
     };
 
-const handleDelete = (id) => {
-    setNotes((prevNotes) => {
-        return prevNotes.map((note) =>
+const handleDelete = async (id) => {
+    setNotes((prevNotes) =>
+        prevNotes.map((note) =>
             note.id === id ? { ...note, isTrash: true } : note
-        );
-    });
+        )
+);
+    try {
+            await api.patch(`/notes/trash/${id}`, {isTrash : true});
+        } catch (error) {
+            
+        }
 };
-
-    const toggleFavourite = (id) => {
+    const toggleFavourite =async (id) => {
         setNotes((prevNotes) =>
             prevNotes.map((note) =>
                 note.id === id ? { ...note, isFavourite: !note.isFavourite } : note
             )
         );
+        try {
+            await api.patch(`/notes/${id}`, {isFavourite : false})
+        } catch (error) {
+            
+        }
     };
-const favNotes=notes.filter((note) => ( note.isFavourite));
+const favNotes=notes.filter((note) => ( note.isFavourite && !note.isTrash));
     return (
         <div className="mynotes" style={{ minHeight: "100vh", display: "flex" }}>
             <Navbar />

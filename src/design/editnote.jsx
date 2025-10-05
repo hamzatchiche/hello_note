@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import Navbar from "./navbar";
-
-export default function EditNote({ notes, setNotes }) {
+import api from "../api/axios";
+export default async function EditNote({ notes, setNotes }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { note } = location.state;
@@ -15,18 +15,27 @@ export default function EditNote({ notes, setNotes }) {
     }
   }, [note]);
 
-  const handleSave = () => {
+  const handleSave =async (e) => {
+    e.preventDefault();
     if (!editRef.current) return;
     const updatedContent = editRef.current.innerText;
-
-    setNotes((prev) =>
-      prev.map((n) =>
-        n.id === note.id ? { ...n, content: updatedContent } : n
-      )
-    );
-
-    navigate("/mynotes");
+if (updatedContent === "") {
+      setIsEmpty(true);
+      return;
+    }
+    
+    try {
+      await api.patch(`/notes/edit/${note.id}`,{content : updatedContent});
+      
+      setNotes(prev=>
+        prev.map(n=>n.id === note.id ? {...n,content: updatedContent}: n)
+      );
+      navigate("/mynotes");
+    } catch (error) {
+      console.error("failed to update note", error)
+    }
   };
+    
 
   return (
     <div className="designinput">
@@ -36,7 +45,7 @@ export default function EditNote({ notes, setNotes }) {
       <div className="designinputcontent">
         <div
           ref={editRef}
-          onChange={() => {
+          onInput={() => {
             if (editRef.current.innerText.trim() === "") {
               setIsEmpty(true);
             } else {

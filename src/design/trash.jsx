@@ -4,19 +4,31 @@ import { useState as usestate } from "react";
 import './favourite.css'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import RestoreRoundedIcon from '@mui/icons-material/RestoreRounded';
+import api from "../api/axios";    
 export default function Favourite({notes, setNotes}){
-    
 
-const handleRestore = (id) => {
+const handleRestore =async (id) => {
     setNotes((prevNotes) => {
         return prevNotes.map((note) =>
             note.id === id ? { ...note, isTrash: false } : note
         );
     });
+    try {
+        await api.patch(`/notes/trash/${id}`, {isTrash : false})
+    } catch (error) {
+        
+    }
 };
-const handleDelete=(id)=>{
-    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
-}
+
+
+const handleDelete = async (id) => {
+  try {
+    await api.delete(`/notes/delete/${id}`);
+  } catch (error) {
+    console.error("Delete failed:", error);
+  }
+};
+
 const trashNotes= notes.filter((note)=> note.isTrash);
     
 

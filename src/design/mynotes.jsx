@@ -6,6 +6,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import AutoDeleteRoundedIcon from '@mui/icons-material/AutoDeleteRounded';
 import { useState as usestate } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 export default function MyNotes({ notes, setNotes }) {
     const [isFavourite, setIsFavourite] = usestate();
     
@@ -19,19 +20,29 @@ export default function MyNotes({ notes, setNotes }) {
         navigate("/editnote", { state: { note } });
     };
 
-const handleDelete = (id) => {
-    setNotes((prevNotes) => {
-        return prevNotes.map((note) =>
+const handleDelete = async (id) => {
+    setNotes((prevNotes) =>
+        prevNotes.map((note) =>
             note.id === id ? { ...note, isTrash: true } : note
-        );
-    });
+        )
+);
+    try {
+            await api.patch(`/notes/trash/${id}`, {isTrash : true});
+        } catch (error) {
+            
+        }
 };
-    const toggleFavourite = (id) => {
+    const toggleFavourite =async (id) => {
         setNotes((prevNotes) =>
             prevNotes.map((note) =>
                 note.id === id ? { ...note, isFavourite: !note.isFavourite } : note
             )
         );
+        try {
+            await api.patch(`/notes/${id}`, {isFavourite : true})
+        } catch (error) {
+            
+        }
     };
 
     const realNotes= notes.filter((note) => !note.isTrash)

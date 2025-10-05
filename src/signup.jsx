@@ -11,9 +11,29 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Logo from './assets/logo.png'
+
+import api from './api/axios';
 export default function Signup() {
-    const [showPassword, setShowPassword] = React.useState(false);
     
+  const [fullname,setfullname]=React.useState("");
+  const [email, setemail]=React.useState("");
+  const [pass,setpass]=React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [message, setmessage]=React.useState("")
+const handlesubmit = async (e)=>{
+  e.preventDefault()
+  try {
+    const res= await api.post("/auth/register" ,{
+      fullname,email,pass
+    });
+    setmessage(res.data.message)
+    console.log("Signup successful:", res.data);
+    
+  } catch (error) {
+    console.log("error", error)
+  }
+}
+
       const handleClickShowPassword = () => setShowPassword((show) => !show);
     
       const handleMouseDownPassword = (event) => {
@@ -23,16 +43,28 @@ export default function Signup() {
       const handleMouseUpPassword = (event) => {
         event.preventDefault();
       };
+
+      const fname=React.useRef(null);
+React.useEffect(()=>{
+  fname.current.focus();
+}, [])
+
   return (
     <div className="signup">
-      <form action="" className="signupform">
+      {message && <h2 style={{color:"green"}}>{message}</h2>}
+      <form onSubmit={handlesubmit} className="signupform">
         <img src={Logo} alt="" className='logo'/>
       <h1>Create Account</h1>
         <TextField
+          inputRef={fname}
           id="outlined-full-name-input"
           label="full name"
           type="text"
           background-color="white"
+          value={fullname}
+          onChange={ 
+            e=> setfullname(e.target.value)
+          }
         />
         
         <TextField
@@ -40,10 +72,16 @@ export default function Signup() {
           label="email"
           type="text"
             autoComplete="current-email"
+            value={email}
+            onChange={e => setemail(e.target.value)}
         />
         <FormControl className='passwordField' variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
+          value={pass}
+          onChange={e=>{
+            setpass(e.target.value)
+          }}
             id="outlined-adornment-password"
             type={showPassword ? 'text' : 'password'}
             endAdornment={
@@ -70,7 +108,7 @@ export default function Signup() {
           type="password"
           autoComplete="current-password"
         />
-<Button variant="contained">Signup</Button>
+<Button variant="contained" type='submite'>Signup</Button>
       </form>
       <Link to="/login"><span className='loginText'>Already have an account?</span> Login</Link>
     </div>
