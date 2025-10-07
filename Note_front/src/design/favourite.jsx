@@ -21,7 +21,7 @@ const navigate = useNavigate();
 const handleDelete = async (id) => {
     setNotes((prevNotes) =>
         prevNotes.map((note) =>
-            note.id === id ? { ...note, isTrash: true } : note
+            note.id === id ? { ...note, is_trash: true } : note
         )
 );
     try {
@@ -33,16 +33,16 @@ const handleDelete = async (id) => {
     const toggleFavourite =async (id) => {
         setNotes((prevNotes) =>
             prevNotes.map((note) =>
-                note.id === id ? { ...note, isFavourite: !note.isFavourite } : note
+                note.id === id ? { ...note, is_favorite: !note.is_favorite } : note
             )
         );
         try {
-            await api.patch(`/notes/${id}`, {isFavourite : false})
+            await api.patch(`/notes/${id}`)
         } catch (error) {
             
         }
     };
-const favNotes=notes.filter((note) => ( note.isFavourite && !note.isTrash));
+const favNotes=notes.filter((note) => ( note.is_favorite && !note.is_trash));
     return (
         <div className="mynotes" style={{ minHeight: "100vh", display: "flex" }}>
             <Navbar />
@@ -65,8 +65,8 @@ const favNotes=notes.filter((note) => ( note.isFavourite && !note.isTrash));
                         {
                             favNotes.map((favourite) => (
                             <div key={favourite.id} className="note" style={{display : "flex", alignItems : "center" , gap : "10px"}}>
-                    <p>{favourite.content}</p>
-                    {favourite.isFavourite ? (
+                    <p>{favourite.note_text}</p>
+                    {favourite.is_favorite ? (
                         <StarIcon className="starIcon" onClick={() => toggleFavourite(favourite.id)} />
                     ) : 
                     (

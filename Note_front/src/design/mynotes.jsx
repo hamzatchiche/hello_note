@@ -33,7 +33,7 @@ export default function MyNotes({ notes, setNotes }) {
     const handleDelete = async (id) => {
         setNotes(prevNotes =>
             prevNotes.map(note =>
-                note.id === id ? { ...note, isTrash: true } : note
+                note.id === id ? { ...note, is_trash: true } : note
             )
         );
         try {
@@ -50,7 +50,7 @@ export default function MyNotes({ notes, setNotes }) {
     const toggleFavourite = async (id) => {
         setNotes(prevNotes =>
             prevNotes.map(note =>
-                note.id === id ? { ...note, isFavourite: !note.isFavourite } : note
+                note.id === id ? { ...note, is_favorite: !note.is_favorite } : note
             )
         );
         try {
@@ -64,7 +64,7 @@ export default function MyNotes({ notes, setNotes }) {
         }
     };
 
-    const realNotes = notes.filter(note => !note.isTrash);
+    const realNotes = notes.filter(note => !note.is_trash);
 
     return (
         <div className="mynotes" style={{ display: "flex" }}>
