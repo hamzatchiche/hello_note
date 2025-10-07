@@ -9,6 +9,7 @@ import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import ToggleButton from "@mui/material/ToggleButton";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 import ToggleButtonGroup, {
   toggleButtonGroupClasses,
 } from "@mui/material/ToggleButtonGroup";
@@ -30,11 +31,14 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       borderLeft: "1px solid transparent",
     },
 }));
+
+
 export default function NoteInput({notes, setNotes}) {
 const navigate = useNavigate();
 const gotomynotes=()=>{
   navigate("/mynotes");
 }
+
 
 const [formats, setFormats] = React.useState(() => []);
   const [isEmpty, setisempty] = React.useState(true);
@@ -59,6 +63,14 @@ const [formats, setFormats] = React.useState(() => []);
     editRef.current.innerHTML = "<p>Start typing here...</p>";
   }
 }, [isEmpty]);
+
+useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("No token found, redirecting to login");
+            navigate("/login");
+        }
+    }, [navigate]);
 
   const editRef = useRef(null);
 
@@ -127,28 +139,33 @@ const [formats, setFormats] = React.useState(() => []);
 
             <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
             <ToggleButton
-              value="save"
-              aria-label="save"
-              onClick={() => {
-                const content = editRef.current.innerText;
-                if(content !=="")
-                {
+  value="save"
+  aria-label="save"
+  onClick={async () => {
+    const content = editRef.current.innerText.trim();
+    if(content !== "") {
+      const token = localStorage.getItem("token");
+      try {
+        const res = await api.post(
+          "/home/ajouter",
+          { content },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setNotes(prev => [...prev, res.data]); // ajouter la note renvoyée par le backend
+        alert("Content saved!");
+        gotomynotes();
+      } catch (err) {
+        console.error("Error saving note:", err);
+        alert("Failed to save note!");
+      }
+    } else {
+      alert("Cannot save empty note.");
+    }
+  }}
+>
+  <SaveIcon />
+</ToggleButton>
 
-                  setNotes(prev =>[...prev,{
-                    id:Date.now(),
-                    content: content,
-                    isFavourite: false,
-                  }])
-                  alert("Content saved!");
-                  gotomynotes();
-                }
-                else{
-                  alert("Cannot save empty note.");
-                }
-              }}
-            >
-              <SaveIcon />
-            </ToggleButton>
           </StyledToggleButtonGroup>
         </Paper>
         

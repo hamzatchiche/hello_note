@@ -13,20 +13,30 @@ import EditNote from "./design/editnote";
 import Error from "./error";
 import "./App.css";
 import api from "./api/axios";
+
 export default function App() {
-  // const [showinput, setshowinput] = React.useState(false);
   const [notes, setNotes] = React.useState([]);
-  React.useEffect(()=>{
-    const fetchnotes = async ()=>{
-try {
-  const res= await api.get("/notes")
-  setNotes(res.data)
-} catch (error) {
-  console("error fetching data")
-}
+
+  React.useEffect(() => {
+    const fetchnotes = async () => {
+      try {
+        
+        const token = localStorage.getItem("token");
+        const res = await api.post(
+          "/home",
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setNotes(res.data.notes || res.data); // selon ta réponse backend
+      } catch (error) {
+        console.error("❌ Error fetching notes:", error);
+      }
     };
     fetchnotes();
-  }, [])
+  }, []);
+
   return (
     <Router>
       <Routes>
@@ -38,9 +48,9 @@ try {
         <Route path="/mynotes" element={<MyNotes notes={notes} setNotes={setNotes} />} />
         <Route path="/favourite" element={<Favourite notes={notes} setNotes={setNotes} />} />
         <Route path="/addnote" element={<NoteInput notes={notes} setNotes={setNotes} />} />
-        <Route path="/editnote" element={<EditNote notes={notes} setNotes={setNotes} />} />
+        <Route path="/editnote/:id" element={<EditNote notes={notes} setNotes={setNotes} />} />
         <Route path="/trash" element={<Trash notes={notes} setNotes={setNotes} />} />
-        <Route path="*" element={<Error/>}></Route>
+        <Route path="*" element={<Error />} />
       </Routes>
     </Router>
   );

@@ -23,8 +23,10 @@ export default function Signup() {
 const handlesubmit = async (e)=>{
   e.preventDefault()
   try {
-    const res= await api.post("/auth/register" ,{
-      fullname,email,pass
+    const res= await api.post("/register" ,{
+      Fullname: fullname,
+  email: email,
+  password: pass
     });
     setmessage(res.data.message)
     console.log("Signup successful:", res.data);

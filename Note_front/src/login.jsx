@@ -8,7 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Input from "@mui/material/Input";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import api from "./api/axios";
@@ -35,15 +35,16 @@ React.useEffect(()=>{
 const [message, setmessage]=React.useState("")
 const [email,setemail]=React.useState("")
 const [password,setpassword]=React.useState("")
-
+const navigate=useNavigate()
 const handlesubmit = async (e) => {
   e.preventDefault();
   try {
-    const res= await api.post("/auth/login",{
+    const res= await api.post("/login",{
       email,password
     });
     setmessage("welcome",res.data.data);
-    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("token", res.data.acces_token);
+    navigate("/mynotes")
     
   } catch (err) {
     console.error(err)
