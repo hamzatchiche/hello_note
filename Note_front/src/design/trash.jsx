@@ -10,11 +10,11 @@ export default function Favourite({notes, setNotes}){
 const handleRestore =async (id) => {
     setNotes((prevNotes) => {
         return prevNotes.map((note) =>
-            note.id === id ? { ...note, isTrash: false } : note
+            note.id === id ? { ...note, is_trash: !note.is_trash } : note
         );
     });
     try {
-        await api.patch(`/notes/trash/${id}`, {isTrash : false})
+        await api.post(`/home/istrash/${id}`)
     } catch (error) {
         
     }
@@ -23,13 +23,14 @@ const handleRestore =async (id) => {
 
 const handleDelete = async (id) => {
   try {
-    await api.delete(`/notes/delete/${id}`);
+    await api.delete(`/home/delete/${id}`);
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   } catch (error) {
     console.error("Delete failed:", error);
   }
 };
 
-const trashNotes= notes.filter((note)=> note.isTrash);
+const trashNotes= notes.filter((note)=> note.is_trash);
     
 
     return (
@@ -50,7 +51,7 @@ const trashNotes= notes.filter((note)=> note.isTrash);
                 (<div className="mynotescontent" >
                     {trashNotes.map((trash) => (
                         <div key={trash.id} className="note" style={{display : "flex", alignItems : "center" , gap : "10px"}}>
-                            <p>{trash.content}</p>
+                            <p>{trash.note_text}</p>
                             <RestoreRoundedIcon className="starIcon" onClick={() => handleRestore(trash.id)} />
                             <DeleteRoundedIcon className="deleteIcon" onClick={() => handleDelete(trash.id)} />
                         </div>

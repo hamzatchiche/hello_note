@@ -33,13 +33,13 @@ export default function MyNotes({ notes, setNotes }) {
     const handleDelete = async (id) => {
         setNotes(prevNotes =>
             prevNotes.map(note =>
-                note.id === id ? { ...note, is_trash: true } : note
+                note.id === id ? { ...note, is_trash: !note.is_trash } : note
             )
         );
         try {
             const token = localStorage.getItem("token");
             if (!token) return;
-            await api.patch(`/home/istrash/${id}`, {}, {
+            await api.post(`/home/istrash/${id}`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
         } catch (error) {
@@ -85,7 +85,7 @@ export default function MyNotes({ notes, setNotes }) {
                     ) : (
                         realNotes.map(note => (
                             <div key={note.id} className="note" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                <p>{note.note_text}</p>
+                                <p dangerouslySetInnerHTML={{ __html: note.note_text }}></p>
                                 {note.is_favorite ? (
                                     <StarIcon className="starIcon" onClick={() => toggleFavourite(note.id)} />
                                 ) : (

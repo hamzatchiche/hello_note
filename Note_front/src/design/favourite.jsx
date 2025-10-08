@@ -14,22 +14,25 @@ export default function Favourite({notes, setNotes}){
 const navigate = useNavigate();
 
     const handleUpdate = (note) => {
-        
-        navigate("/editnote", { state: { note } });
+        navigate(`/editnote/${note.id}`, { state: { note } });
     };
 
-const handleDelete = async (id) => {
-    setNotes((prevNotes) =>
-        prevNotes.map((note) =>
-            note.id === id ? { ...note, is_trash: true } : note
-        )
-);
-    try {
-            await api.patch(`/notes/trash/${id}`, {isTrash : true});
+ const handleDelete = async (id) => {
+        setNotes(prevNotes =>
+            prevNotes.map(note =>
+                note.id === id ? { ...note, is_trash: !note.is_trash } : note
+            )
+        );
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+            await api.post(`/home/istrash/${id}`, {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
         } catch (error) {
-            
+            console.error("Error deleting note:", error);
         }
-};
+    };
     const toggleFavourite =async (id) => {
         setNotes((prevNotes) =>
             prevNotes.map((note) =>

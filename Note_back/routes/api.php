@@ -20,6 +20,7 @@ Route::prefix('/home')->group(function (){
             Route::post('/isfavorite/{id}','Favorite')->name('favorite');
             Route::post('/istrash/{id}','Trash')->name('trash');
             Route::delete('/delete/{id}','Delete')->name('delete');
+
         });
     });
 });

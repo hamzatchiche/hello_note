@@ -17,5 +17,4 @@ class Maincontroller extends Controller
         return response()->json($notes);
     }
 
-    // ... tes autres méthodes (favorite, trash, etc.)
 }

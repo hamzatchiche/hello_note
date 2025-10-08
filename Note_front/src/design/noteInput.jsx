@@ -142,13 +142,13 @@ useEffect(() => {
   value="save"
   aria-label="save"
   onClick={async () => {
-    const content = editRef.current.innerText.trim();
-    if(content !== "") {
+    const note_text = editRef.current.innerText.trim();
+    if(note_text !== "") {
       const token = localStorage.getItem("token");
       try {
         const res = await api.post(
           "/home/ajouter",
-          { content },
+          { note_text },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setNotes(prev => [...prev, res.data]); // ajouter la note renvoyée par le backend

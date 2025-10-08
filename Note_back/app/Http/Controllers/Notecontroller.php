@@ -9,7 +9,7 @@ class Notecontroller extends Controller
     public function AddNote(Request $request){
         $data=Auth::user();
         $validate=$request->validate([
-            'note_text'=>'required|min:20'
+            'note_text'=>'required'
         ]);
         $req=Note::create([
             'user_id'=>$data->id,
@@ -20,7 +20,7 @@ class Notecontroller extends Controller
         if (!$req) {
             return response()->json(['msg'=>'error']);
         }
-        return response()->json(['msg'=>'Note created!!!']);
+        return response()->json($req, 201);
     }
 
     public function EditNote(Request $request,$id){
@@ -38,7 +38,7 @@ class Notecontroller extends Controller
         $data=Auth::user();
         $user=$data->id;
         $note=Note::where('user_id',$user)->where('id',$id)->first();
-        $note->is_favorite=true;
+        $note->is_favorite= !$note->is_favorite;
         $note->save();
         return response()->json(['msg'=>'Note placed in favorite']);
     }
@@ -46,7 +46,7 @@ class Notecontroller extends Controller
         $data=Auth::user();
         $user=$data->id;
         $note=Note::where('user_id',$user)->where('id',$id)->first();
-        $note->is_trash=true;
+        $note->is_trash= !$note->is_trash;
         $note->is_favorite=false;
         $note->save();
         return response()->json(['msg'=>'Note placed in trash']);

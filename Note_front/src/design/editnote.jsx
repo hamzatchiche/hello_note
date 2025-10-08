@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import Navbar from "./navbar";
 import api from "../api/axios";
-export default async function EditNote({ notes, setNotes }) {
+export default function EditNote({ notes, setNotes }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { note } = location.state;
@@ -11,24 +11,24 @@ export default async function EditNote({ notes, setNotes }) {
 
   useEffect(() => {
     if (editRef.current) {
-      editRef.current.innerText = note.content;
+      editRef.current.innerText = note.note_text;
     }
   }, [note]);
 
   const handleSave =async (e) => {
     e.preventDefault();
     if (!editRef.current) return;
-    const updatedContent = editRef.current.innerText;
+    const updatedContent = editRef.current.innerText.trim();
 if (updatedContent === "") {
       setIsEmpty(true);
       return;
     }
     
     try {
-      await api.patch(`/notes/edit/${note.id}`,{content : updatedContent});
+      await api.post(`/home/editnote/${note.id}`,{note_text : updatedContent});
       
       setNotes(prev=>
-        prev.map(n=>n.id === note.id ? {...n,content: updatedContent}: n)
+        prev.map(n=>n.id === note.id ? {...n,note_text: updatedContent}: n)
       );
       navigate("/mynotes");
     } catch (error) {
